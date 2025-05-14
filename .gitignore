@@ -1,0 +1,11 @@
+maestro_checkpoint/
+magenta/
+GuitarSet/
+audio/
+audio_inputs/
+tfrecord/
+source_separation_audio/
+pretrained_models/
+output/
+ffmpeg_outputs/
+music21test/
