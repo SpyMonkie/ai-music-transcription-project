@@ -36,7 +36,7 @@
 # print(f"Sheet music saved to: {output_pdf}")
 
 import pretty_midi
-from music21 import converter, chord, stream, metadata
+from music21 import converter, chord, stream, metadata, meter, tempo, key, midi, harmony
 import subprocess
 import os
 
@@ -53,40 +53,63 @@ def quantize_midi(input_path, output_path, resolution=0.05, min_duration=0.05):
 
 # midi_file = "output/The_Way_it_is/piano.wav.midi"
 midi_file = "music21test/input_audio/letitgo.midi"
-output_path = "music21test/output/letitgo_piano_quantized.midi"
-quantize_midi(midi_file, output_path)
-
-# load midi file
-score = converter.parse(output_path)
-
-# Flatten to get all notes for chord analysis
-flat_score = score.flatten()
-
-# analyze and label chords
-chordified = flat_score.chordify()
-
-# analyze chord symbols
-for c in chordified.recurse().getElementsByClass('Chord'):
-    c.addLyric(c.pitchedCommonName)
-
+quantized_path = "music21test/output/letitgo_piano_quantized.midi"
 outputxml = "music21test/output/letitgo.musicxml"
+quantize_midi(midi_file, quantized_path)
 
-chordified.metadata = metadata.Metadata()
-chordified.metadata.title = "Let It Go"
-chordified.metadata.composer = "Kristen Anderson-Lopez, Robert Lopez"
+# Use musescore to convert MIDI to MusicXML for music21
+command = ["musescore4", quantized_path, "-o", outputxml]
+subprocess.run(command, check=True)
 
-# create a stream for the chord symbols
-choridfied = chordified.write('musicxml', fp=outputxml)
+
+# music21 analysis
+score = converter.parse(outputxml)
+
+chordified = score.chordify()
+
+chord_symbols = []
+last_offset = -1
+
+for c in chordified.recurse().getElementsByClass('Chord'):
+    if c.offset != last_offset:
+        try:
+            symbol = c.root().name + c.quality
+            h = harmony.ChordSymbol()
+            h.figure = symbol
+            h.quarterLength = 1.0
+            h.offset = c.offset
+            chord_symbols.append(h)
+            last_offset = c.offset
+        except Exception as e:
+            continue
+
+# main_part = score.parts[0]
+# for h in chord_symbols:
+#     measure = main_part.measure(h.measureNumber)
+#     if measure is not None:
+#         print(f"Adding chord symbol {h} to measure {measure.number}")
+#         measure.insert(h.offset - measure.offset, h)
+main_part = score.parts[0]
+for h in chord_symbols:
+    main_part.insert(h.offset, h)
+    print(f" Offset: {h.offset}, Label: {h.figure}")
+
+score.metadata = metadata.Metadata()
+score.metadata.title = "Let It Go"
+score.metadata.composer = "Kristen Anderson-Lopez, Robert Lopez"
+
+score.insert(0, meter.TimeSignature('4/4'))
+score.insert(0, key.KeySignature(0))
+
+music21_output = "music21test/output/letitgo_chordified.musicxml"
+score.write('musicxml', fp=music21_output)
+
 output_pdf = "music21test/output/letitgo.pdf"
 
-command = ["musescore4", outputxml, "-o", output_pdf]
+command = ["musescore4", music21_output, "-o", output_pdf]
 
 subprocess.run(command, check=True)
 
-# # Export without calling makeNotation()
-# output_musicxml = 'output/sheet_music.musicxml'
-# score.write('musicxml', fp=output_musicxml, makeNotation=True)
-# print(f"Sheet music saved to: {output_musicxml}")
 
 
 
