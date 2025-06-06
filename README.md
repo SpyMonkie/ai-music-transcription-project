@@ -72,12 +72,33 @@ Each step in the pipeline can be run independently:
 4. Quantize MIDI
 5. Export to sheet music PDF with MuseScore
 
+## 🔗 Pretrained Models
+
+You can download the Magenta model directories used in this project below:
+
+- Piano model (Onsets and Frames): [Download](https://drive.google.com/file/d/1K3ZdsRslRY8GO1reBvsJy6FSAklXB8im/view?usp=sharing)
+- Drum model (DrumRNN): [Download](https://drive.google.com/file/d/1FoU5Dihn8xQUuUmbBHhC7lgC4N2VLOtr/view?usp=sharing)
+- Custom-trained Guitar model (experimental): [Download](https://drive.google.com/file/d/1tYUUYG-9yW1A90iSRM96P3ipAtNWDKtN/view?usp=sharing)
+
+After downloading, place each model in its own folder in the root directory, such as:
+
+transcription-gui/
+├── gui.py
+├── maestro_checkpoint/
+│   ├── piano/
+│   ├── drum/
+│   └── guitar/
+
 ## Repository Structure
 ```
 project-root/
 ├── gui.py                     # Main GUI launcher
 ├── magenta/             # magenta github repo
 ├── requirements.txt          # Python dependencies
+├── maestro_checkpoint/       # Magenta Transcription models
+│   ├── piano/
+│   ├── drum/
+│   └── guitar/
 ```
 
 ## Optional: Training Your Own Model

@@ -152,7 +152,7 @@ def run_magenta():
     def magenta_task():
         try:
             model_type = model_choice.get()
-            model_dir = "./maestro_checkpoint/train" if model_type == "Piano" else "./maestro_checkpoint/drum"
+            model_dir = "./maestro_checkpoint/piano" if model_type == "Piano" else "./maestro_checkpoint/drum"
             config = "onsets_frames" if model_type == "Piano" else "drums"
 
             # 1. Create a subdirectory for the output
