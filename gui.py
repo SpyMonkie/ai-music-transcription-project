@@ -18,6 +18,31 @@ def quantize_midi(input_path, output_path, resolution=0.05, min_duration=0.05):
                 note.end = note.start + min_duration
     midi.write(output_path)
 
+def get_midi_stats(midi_path):
+    midi_data = pretty_midi.PrettyMIDI(midi_path)
+    all_durations = []
+    all_pitches = set()
+    tied_notes = 0
+
+    for instrument in midi_data.instruments:
+        last_end = -1
+        for note in instrument.notes:
+            duration = note.end - note.start
+            all_durations.append(duration)
+            all_pitches.add(note.pitch)
+            if abs(note.start - last_end) < 0.01:
+                tied_notes += 1
+            last_end = note.end
+
+    stats = {
+        "Total notes": len(all_durations),
+        "Unique pitches": len(all_pitches),
+        "Tied notes": tied_notes,
+        "Avg duration (s)": round(sum(all_durations) / len(all_durations), 3) if all_durations else 0,
+        "Distinct durations": len(set(round(d, 3) for d in all_durations)),
+    }
+    return stats
+
 def show_progress(message):
     # status_label.config(text=message)
     # status_label.pack(pady=(10, 0))
@@ -127,7 +152,7 @@ def run_magenta():
     def magenta_task():
         try:
             model_type = model_choice.get()
-            model_dir = "./maestro_checkpoint/piano" if model_type == "Piano" else "./maestro_checkpoint/drum"
+            model_dir = "./maestro_checkpoint/train" if model_type == "Piano" else "./maestro_checkpoint/drum"
             config = "onsets_frames" if model_type == "Piano" else "drums"
 
             # 1. Create a subdirectory for the output
@@ -185,6 +210,11 @@ def midi_to_pdf():
 
             # Quantize the MIDI file
             quantize_midi(midi_file, quantized_path)
+
+            regular_stats = get_midi_stats(midi_file)
+            quantized_stats = get_midi_stats(quantized_path)
+            print(f"Regular MIDI Stats: {regular_stats}")
+            print(f"Quantized MIDI Stats: {quantized_stats}")
 
             cmd = ["musescore4", quantized_path, "-o", out_pdf]
             subprocess.run(cmd, check=True)

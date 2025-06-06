@@ -53,7 +53,7 @@ def quantize_midi(input_path, output_path, resolution=0.05, min_duration=0.05):
 
 # midi_file = "output/The_Way_it_is/piano.wav.midi"
 midi_file = "music21test/input_audio/letitgo.midi"
-quantized_path = "music21test/output/letitgo_piano_quantized.midi"
+quantized_path = "music21test/output/letitgo_q.midi"
 outputxml = "music21test/output/letitgo.musicxml"
 quantize_midi(midi_file, quantized_path)
 
@@ -97,11 +97,12 @@ for h in chord_symbols:
 score.metadata = metadata.Metadata()
 score.metadata.title = "Let It Go"
 score.metadata.composer = "Kristen Anderson-Lopez, Robert Lopez"
+# score.metadata.composer = "Ludwig van Beethoven"
 
 score.insert(0, meter.TimeSignature('4/4'))
 score.insert(0, key.KeySignature(0))
 
-music21_output = "music21test/output/letitgo_chordified.musicxml"
+music21_output = "music21test/output/letitgo_ch.musicxml"
 score.write('musicxml', fp=music21_output)
 
 output_pdf = "music21test/output/letitgo.pdf"
