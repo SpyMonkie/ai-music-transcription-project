@@ -7,5 +7,5 @@ music21
 spleeter
 ffmpeg-python
 mido
-tqdm
 apache-beam  # Only needed if training a model
+tkinter

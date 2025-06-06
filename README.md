@@ -43,7 +43,6 @@ pip install music21
 pip install spleeter
 pip install ffmpeg-python
 pip install mido
-pip install tqdm
 pip install apache-beam  # only needed if training your own model
 ```
 
