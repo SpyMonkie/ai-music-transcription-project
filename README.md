@@ -72,7 +72,7 @@ Each step in the pipeline can be run independently:
 4. Quantize MIDI
 5. Export to sheet music PDF with MuseScore
 
-## 🔗 Pretrained Models
+## Pretrained Models
 
 You can download the Magenta model directories used in this project below:
 
@@ -82,12 +82,14 @@ You can download the Magenta model directories used in this project below:
 
 After downloading, place each model in its own folder in the root directory, such as:
 
+```
 transcription-gui/
 ├── gui.py
 ├── maestro_checkpoint/
 │   ├── piano/
 │   ├── drum/
 │   └── guitar/
+```
 
 ## Repository Structure
 ```
