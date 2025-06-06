@@ -6,7 +6,7 @@ This project is a desktop-based tool for transcribing multi-instrument audio int
 - Postprocessing with pretty_midi and MuseScore
 - A tkinter GUI for easy control of the pipeline
 
-## 🔧 Installation Requirements
+## Installation Requirements
 
 This project was developed using Python 3.8.20 in an Anaconda environment. To replicate the setup, follow these steps:
 
@@ -59,7 +59,7 @@ The GUI uses some of the python files from their github
 pip install tensorflow==1.15.5
 ```
 
-## 🚀 Running the Tool
+## Running the Tool
 Once installed, launch the GUI with:
 ```bash
 python gui.py
@@ -72,7 +72,7 @@ Each step in the pipeline can be run independently:
 4. Quantize MIDI
 5. Export to sheet music PDF with MuseScore
 
-## 📂 Repository Structure
+## Repository Structure
 ```
 project-root/
 ├── gui.py                     # Main GUI launcher
@@ -80,13 +80,13 @@ project-root/
 ├── requirements.txt          # Python dependencies
 ```
 
-## 🧪 Optional: Training Your Own Model
+## Optional: Training Your Own Model
 To train a custom Onsets and Frames model:
 - Install apache-beam
 - Format data using TFRecord (Magenta tools)
 - See the official guide: https://github.com/magenta/magenta/blob/main/magenta/models/onsets_frames_transcription/README.md
 
-## 📜 License
+## License
 This project uses the following open-source tools:
 - Magenta (Apache License 2.0)
 - Spleeter (MIT License)
