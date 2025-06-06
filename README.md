@@ -8,12 +8,12 @@ This project is a desktop-based tool for transcribing multi-instrument audio int
 
 ## 🔧 Installation Requirements
 
-This project was developed using Python 3.8.12 in an Anaconda environment. To replicate the setup, follow these steps:
+This project was developed using Python 3.8.20 in an Anaconda environment. To replicate the setup, follow these steps:
 
 ### 1. Clone This Repository
 ```bash
-git clone https://github.com/yourusername/transcription-gui
-cd transcription-gui
+git clone https://github.com/SpyMonkie/ai-music-transcription-project.git
+cd ai-music-transcription-project
 ```
 
 ### 2. Install ffmpeg
@@ -27,11 +27,11 @@ cd transcription-gui
 
 ### 4. Create a Conda Environment
 ```bash
-conda create -n magentaproj python=3.8.12
-conda activate magentaproj
+conda create -n env_name python=3.8.20
+conda activate env_name
 ```
 
-### 5. Install Required Python Packages
+### 5. Install Required Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
@@ -40,7 +40,7 @@ Alternatively, install manually:
 ```bash
 pip install pretty_midi
 pip install music21
-pip install spleeter==2.3.2
+pip install spleeter
 pip install ffmpeg-python
 pip install mido
 pip install tqdm
@@ -48,18 +48,11 @@ pip install apache-beam  # only needed if training your own model
 ```
 
 ### 6. Clone and Configure Magenta
+This GUI relies on scripts from Magenta's GitHub repository
 ```bash
 git clone https://github.com/magenta/magenta.git
 ```
-Add Magenta to your Python path in your script:
-```python
-import sys
-sys.path.append("path/to/magenta")
-```
-Or set it as an environment variable:
-```bash
-export PYTHONPATH="$PYTHONPATH:/path/to/magenta"
-```
+The GUI uses some of the python files from their github
 
 > Note: Magenta's Onsets and Frames model requires TensorFlow 1.15.5
 
@@ -82,12 +75,10 @@ Each step in the pipeline can be run independently:
 
 ## 📂 Repository Structure
 ```
-transcription-gui/
+project-root/
 ├── gui.py                     # Main GUI launcher
-├── midi_utils.py             # Quantization and stats tools
+├── magenta/             # magenta github repo
 ├── requirements.txt          # Python dependencies
-├── examples/                 # Example audio, MIDI, and sheet music
-└── figures/                  # Sheet music images for evaluation
 ```
 
 ## 🧪 Optional: Training Your Own Model
